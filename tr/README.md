@@ -2,7 +2,7 @@
 
 # Device Faker 📱
 
-<img src="../assets/icon.svg" width="96" alt="logo">
+<img src="../logo.png" width="96" alt="logo">
 
 Zygisk tabanlı, farklı uygulamalar için farklı cihaz modellerini yapılandırabilen bir cihaz modeli taklit modülü.
 

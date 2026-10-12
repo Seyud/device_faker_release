@@ -2,7 +2,7 @@
 
 # Device Faker 📱
 
-<img src="assets/icon.svg" width="96" alt="logo">
+<img src="logo.png" width="96" alt="logo">
 
 一个基于 Zygisk 的机型伪装模块，可以为不同的应用配置不同的设备型号。
 

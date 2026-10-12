@@ -2,7 +2,7 @@
 
 # Device Faker 📱
 
-<img src="../assets/icon.svg" width="96" alt="logo">
+<img src="../logo.png" width="96" alt="logo">
 
 A device model spoofing module based on Zygisk that can configure different device models for different applications.
 
