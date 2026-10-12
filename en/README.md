@@ -1,15 +1,19 @@
-**English** | [简体中文](https://github.com/Seyud/device_faker/blob/main/docs/README.md) | [Türkçe](https://github.com/Seyud/device_faker/blob/main/docs/tr/README.md)
+**English** | [简体中文](../README.md) | [Türkçe](../tr/README.md)
 
 # Device Faker 📱
 
-<img src="https://raw.githubusercontent.com/KernelSU-Modules-Repo/device_faker/main/logo.png" style="width: 96px;" alt="logo">
+<img src="../assets/icon.svg" width="96" alt="logo">
 
 A device model spoofing module based on Zygisk that can configure different device models for different applications.
 
-[![Version](https://img.shields.io/github/v/release/Seyud/Device_Faker?logo=github)](https://github.com/Seyud/Device_Faker/releases/latest)
-[![GitHub Downloads](https://img.shields.io/github/downloads/KernelSU-Modules-Repo/Device_Faker/total?logo=github&logoColor=green)](https://github.com/KernelSU-Modules-Repo/Device_Faker/releases)
+[![Version](https://img.shields.io/github/v/release/Seyud/device_faker_release?logo=github)](https://github.com/Seyud/device_faker_release/releases/latest)
+[![GitHub Downloads](https://img.shields.io/github/downloads/Seyud/device_faker_release/total?logo=github&logoColor=green)](https://github.com/Seyud/device_faker_release/releases)
 [![Language](https://img.shields.io/badge/language-Rust-orange?logo=rust&logoColor=orange)](https://www.rust-lang.org/)
 [![Telegram](https://img.shields.io/badge/group-Telegram-2CA5E0?logo=telegram&logoColor=87CEEB)](https://t.me/device_faker)
+
+## Official Website 🌐
+
+[![Website](https://img.shields.io/badge/website-visit-2ea44f?style=for-the-badge&logo=google-chrome&logoColor=white)](https://seyud.github.io/device_faker/en/)
 
 ## Features ✨
 
@@ -20,7 +24,6 @@ A device model spoofing module based on Zygisk that can configure different devi
 - 📝 **Simple Configuration**: Using TOML format configuration files, easy to edit
 - 🎭 **Unified Execution Flow**: No mode selection needed, automatically schedules JNI field spoofing, COW property spoofing and companion services
 - 🔒 **COW Property Engine**: mmap copy-on-write property spoofing, per-process isolation with zero residency
-- 🧬 **CPU Camouflage**: Per-app /proc/cpuinfo spoofing
 - 🌐 **WebUI Management**: Provides graphical interface for convenient configuration management
 
 ## WebUI Features 🖥️
@@ -34,9 +37,15 @@ Device Faker provides a modern web management interface.
 
 ## Configuration Guide ⚙️
 
-For detailed configuration instructions, please refer to the [Configuration Documentation](https://github.com/KernelSU-Modules-Repo/device_faker/blob/main/CONFIG.md).
+For detailed configuration instructions, please refer to the [Configuration Documentation](CONFIG.md).
 
 The configuration file is located at `/data/adb/device_faker/config/config.toml` and uses TOML format. After modifying the configuration, just restart the corresponding application to take effect, no need to restart the system.
+
+## Documentation 📚
+
+- [Configuration Guide](CONFIG.md) - App / template options, property spoofing mechanism and priority
+- [Changelog](CHANGELOG.md) - Release history
+- [Official Website](https://seyud.github.io/device_faker/en/) - Usage guides and FAQ
 
 ## Template Configuration Contribution 🎁
 

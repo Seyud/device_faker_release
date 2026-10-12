@@ -1,0 +1,33 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/KernelSU-Modules/tools/main/schemas/module.schema.json
+#
+# KernelSU Modules 展示元数据（schemaVersion 1）。
+# 这里只放展示信息：version / versionCode / sha256 / 下载地址一律来自 release ZIP 内的 module.prop。
+# 详细字段说明：https://developers.kernelsu.org/docs/zh-CN/module-yaml
+schemaVersion: 1
+id: device_faker
+name: Device Faker
+summary: "基于 Zygisk 的机型伪装模块：为每个应用单独配置设备型号与系统属性，per-process 生效，无需重启系统。"
+description: README.md
+license: GPL-3.0-or-later
+homepage: https://seyud.github.io/device_faker/
+support: https://github.com/Seyud/device_faker_release/issues
+tags: [device-faker, faker, spoof, zygisk]
+icon: assets/icon.svg
+metamodule: false
+
+authors:
+  - name: 瓦力喀 / Seyud
+    url: https://github.com/Seyud
+
+# 模块已改为从本分发仓库发布 release，Star 数仍显示原开源仓库的。
+starsRepository: Seyud/device_faker
+
+compatibility:
+  # libbinder NDK（rsbinder）自 API 29 起可用；实测适配 Android 10~17。
+  androidMinApi: 29
+  architectures: [arm64-v8a]
+
+release:
+  # 发布时 release 中必须恰好有一个匹配的资源（只支持 * 和 ? 通配符）。
+  # 覆盖构建产物名 device_faker-(release).zip 与 module-release action 的命名。
+  assetPattern: "device_faker*.zip"

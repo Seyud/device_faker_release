@@ -1,16 +1,20 @@
-**简体中文** | [English](https://github.com/Seyud/device_faker/blob/main/docs/en/README.md) | [Türkçe](https://github.com/Seyud/device_faker/blob/main/docs/tr/README.md)
+**简体中文** | [English](en/README.md) | [Türkçe](tr/README.md)
 
 # Device Faker 📱
 
-<img src="https://raw.githubusercontent.com/KernelSU-Modules-Repo/device_faker/main/logo.png" style="width: 96px;" alt="logo">
+<img src="assets/icon.svg" width="96" alt="logo">
 
 一个基于 Zygisk 的机型伪装模块，可以为不同的应用配置不同的设备型号。
 
-[![Version](https://img.shields.io/github/v/release/Seyud/Device_Faker?logo=github)](https://github.com/Seyud/Device_Faker/releases/latest)
-[![GitHub Downloads](https://img.shields.io/github/downloads/KernelSU-Modules-Repo/Device_Faker/total?logo=github&logoColor=green)](https://github.com/KernelSU-Modules-Repo/Device_Faker/releases)
+[![Version](https://img.shields.io/github/v/release/Seyud/device_faker_release?logo=github)](https://github.com/Seyud/device_faker_release/releases/latest)
+[![GitHub Downloads](https://img.shields.io/github/downloads/Seyud/device_faker_release/total?logo=github&logoColor=green)](https://github.com/Seyud/device_faker_release/releases)
 [![Language](https://img.shields.io/badge/language-Rust-orange?logo=rust&logoColor=orange)](https://www.rust-lang.org/)
 [![Telegram](https://img.shields.io/badge/group-Telegram-2CA5E0?logo=telegram&logoColor=87CEEB)](https://t.me/device_faker)
 [![QQ群](https://img.shields.io/badge/QQ群-854188252-12B7F5?logo=qq&logoColor=white)](https://qun.qq.com/universal-share/share?ac=1&authKey=ls4nlfcsF%2Bxp5SPnVsXRgpbeV1axPZb%2FmJCMXms6ZCHjgAwvOyl1LV%2BDNVL1btgL&busi_data=eyJncm91cENvZGUiOiI4NTQxODgyNTIiLCJ0b2tlbiI6IlE1WVVyZTZxUXVjZUtGUUxWSGFmbzkvMEd3UWNRSiszdklTZDhHejU0RDRyT0lWRTFqS3d4UGJSM1ltaXpkS3MiLCJ1aW4iOiIxMTA1NzgzMDMzIn0%3D&data=IbvhTKt9HwCSsCsl_610-rQ8p6H2NgLmxhEKkMcn-BMWPb86jygWBZJfWLQGm7J8LwpVV2yhPafxTMXYGkjRVA&svctype=4&tempid=h5_group_info)
+
+## 官方网站 🌐
+
+[![官网](https://img.shields.io/badge/官网-点击访问-2ea44f?style=for-the-badge&logo=google-chrome&logoColor=white)](https://seyud.github.io/device_faker/)
 
 ## 特性 ✨
 
@@ -21,7 +25,6 @@
 - 📝 **简单配置**: 使用 TOML 格式配置文件，易于编辑
 - 🎭 **统一执行流**: 无需选择模式，自动调度 JNI 字段伪装、COW 属性伪造与 companion 服务
 - 🔒 **COW 属性引擎**: mmap 写时复制伪造系统属性，per-process 隔离、模块零驻留
-- 🧬 **CPU 伪装**: 按应用伪装 /proc/cpuinfo 内容
 - 🌐 **WebUI管理**: 提供图形化界面，方便配置管理
 
 ## WebUI 功能 🖥️
@@ -35,9 +38,15 @@ Device Faker 提供了现代化的 Web 管理界面
 
 ## 配置说明 ⚙️
 
-详细的配置说明请参考 [配置文档](https://github.com/KernelSU-Modules-Repo/device_faker/blob/main/CONFIG.md)。
+详细的配置说明请参考 [配置文档](CONFIG.md)。
 
 配置文件位于 `/data/adb/device_faker/config/config.toml`，使用 TOML 格式。修改配置后仅需重启对应应用即可生效，无需重启系统。
+
+## 文档导航 📚
+
+- [配置说明](CONFIG.md) - 应用/模板配置项、属性伪造机制与优先级
+- [更新日志](CHANGELOG.md) - 各版本变更记录
+- [官方网站](https://seyud.github.io/device_faker/) - 使用指南与常见问题
 
 ## 模板配置贡献 🎁
 

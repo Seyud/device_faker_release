@@ -1,0 +1,10 @@
+# 统一使用 LF 行尾，避免跨平台（Windows CRLF）在元数据同步时产生无意义的差异
+* text=auto eol=lf
+
+# 二进制文件不做行尾/编码转换
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.gif binary
+*.zip binary

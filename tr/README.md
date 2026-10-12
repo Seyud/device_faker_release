@@ -1,15 +1,19 @@
-**Türkçe** | [简体中文](https://github.com/Seyud/device_faker/blob/main/docs/README.md) | [English](https://github.com/Seyud/device_faker/blob/main/docs/en/README.md)
+**Türkçe** | [简体中文](../README.md) | [English](../en/README.md)
 
 # Device Faker 📱
 
-<img src="https://raw.githubusercontent.com/KernelSU-Modules-Repo/device_faker/main/logo.png" style="width: 96px;" alt="logo">
+<img src="../assets/icon.svg" width="96" alt="logo">
 
 Zygisk tabanlı, farklı uygulamalar için farklı cihaz modellerini yapılandırabilen bir cihaz modeli taklit modülü.
 
-[![Version](https://img.shields.io/github/v/release/Seyud/Device_Faker?logo=github)](https://github.com/Seyud/Device_Faker/releases/latest)
-[![GitHub Downloads](https://img.shields.io/github/downloads/KernelSU-Modules-Repo/Device_Faker/total?logo=github&logoColor=green)](https://github.com/KernelSU-Modules-Repo/Device_Faker/releases)
+[![Version](https://img.shields.io/github/v/release/Seyud/device_faker_release?logo=github)](https://github.com/Seyud/device_faker_release/releases/latest)
+[![GitHub Downloads](https://img.shields.io/github/downloads/Seyud/device_faker_release/total?logo=github&logoColor=green)](https://github.com/Seyud/device_faker_release/releases)
 [![Language](https://img.shields.io/badge/language-Rust-orange?logo=rust&logoColor=orange)](https://www.rust-lang.org/)
 [![Telegram](https://img.shields.io/badge/group-Telegram-2CA5E0?logo=telegram&logoColor=87CEEB)](https://t.me/device_faker)
+
+## Resmî Web Sitesi 🌐
+
+[![Web sitesi](https://img.shields.io/badge/web_sitesi-ziyaret_edin-2ea44f?style=for-the-badge&logo=google-chrome&logoColor=white)](https://seyud.github.io/device_faker/)
 
 ## Özellikler ✨
 
@@ -20,9 +24,7 @@ Zygisk tabanlı, farklı uygulamalar için farklı cihaz modellerini yapılandı
 * 📝 **Basit Yapılandırma**: Düzenlemesi kolay TOML formatındaki yapılandırma dosyalarını kullanır.
 * 🎭 **Birleşik Yürütme Akışı**: Mod seçimi gerektirmez; JNI alan sahteleştirmesi, COW özellik sahteleştirmesi ve companion hizmetleri otomatik olarak yönetilir.
 * 🔒 **COW Özellik Motoru**: Sistem özelliklerini mmap copy-on-write ile sahteleştirir; süreç başına izolasyon ve sıfır kalıcılık.
-* 🧬 **CPU Taklidi**: Uygulama başına /proc/cpuinfo taklidi.
 * 🌐 **WebUI Yönetimi**: Yapılandırmaları kolayca yönetebilmeniz için grafiksel bir web arayüzü sunar.
-
 
 ## WebUI Özellikleri 🖥️
 
@@ -35,11 +37,17 @@ Device Faker modern, web tabanlı bir yönetim arayüzü sunar.
 
 ## Yapılandırma Rehberi ⚙️
 
-Ayrıntılı yapılandırma talimatları için lütfen [Yapılandırma Belgeleri](https://github.com/KernelSU-Modules-Repo/device_faker/blob/main/CONFIG.md) bölümüne bakın.
+Ayrıntılı yapılandırma talimatları için lütfen [Yapılandırma Belgeleri](../en/CONFIG.md) bölümüne bakın.
 
 > Bu kısım çok fazla teknik bilgi içerdiğinden dolayı çevirme gereği duymadım, zaten eğer yapılandırma dosyaları ile uğraşıyorsanız ortalama seviyede bir İngilizceye sahipsiniz demektir :)
 
 Yapılandırma dosyası `/data/adb/device_faker/config/config.toml` konumunda bulunur ve TOML biçimini kullanır. Yapılandırmayı değiştirdikten sonra, değişikliklerin yürürlüğe girmesi için ilgili uygulamayı yeniden başlatmanız yeterlidir; sistemi yeniden başlatmanıza gerek yoktur.
+
+## Belgeler 📚
+
+- [Yapılandırma Rehberi (EN)](../en/CONFIG.md) - Uygulama / şablon seçenekleri, özellik sahteleştirme mekanizması ve öncelik
+- [Sürüm Notları (EN)](../en/CHANGELOG.md) - Sürüm geçmişi
+- [Resmî Web Sitesi](https://seyud.github.io/device_faker/) - Kullanım kılavuzları ve SSS
 
 ## Şablon Yapılandırması Katkıları 🎁
 

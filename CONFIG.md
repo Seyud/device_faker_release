@@ -16,26 +16,10 @@
 ```toml
 debug = false                        # 调试日志（默认关闭）
 default_force_denylist_unmount = false
-default_cpu_spoof = "kirin_9030pro"  # 模板/应用未指定 cpu_spoof 时的兜底预设
 ```
 
 - `debug`：启用后输出 Info 级别日志（关闭时仅 Error），写入 `/data/adb/device_faker/logs/device_faker.log`；正常使用建议关闭以提高隐蔽性
 - `default_force_denylist_unmount`：为目标应用启用 Zygisk 的 `FORCE_DENYLIST_UNMOUNT`，可在模板/应用里用 `force_denylist_unmount` 覆盖
-- `default_cpu_spoof`：CPU 伪装预设名，模板/应用未指定 `cpu_spoof` 时回落到该预设
-
-### cpu_presets
-
-`[cpu_presets]` 定义命名预设，值为完整的 `/proc/cpuinfo` 内容（TOML 多行字符串，示例省略了中间行）：
-
-```toml
-[cpu_presets]
-kirin_9030pro = """Processor       : AArch64 Processor rev 0 (aarch64)
-Features        : fp asimd evtstrm aes pmull sha1 sha2 crc32
-...
-Hardware        : HiSilicon Kirin 9030 Pro"""
-```
-
-在模板或 `[[apps]]` 中用 `cpu_spoof = "预设名"` 引用，详见 [CPU 伪装](#cpu-伪装)。
 
 ## 编辑配置
 
@@ -97,7 +81,7 @@ name = "popsicle"
 
 - **`[[apps]]` 是整记录匹配**：一旦包名命中 `[[apps]]`，该条记录**整体取代**模板——记录中未设置的字段**不会**回落模板，只套用全局默认值
 - 未命中 `[[apps]]` 时，在模板的 `packages` 列表中查找
-- 最终套用全局默认值：`force_denylist_unmount` ← `default_force_denylist_unmount`，CPU 预设 ← `default_cpu_spoof`
+- 最终套用全局默认值：`force_denylist_unmount` ← `default_force_denylist_unmount`
 - 未匹配任何配置的应用：不做伪装并卸载模块
 
 **覆盖模板示例**：
@@ -130,18 +114,28 @@ manufacturer = "Samsung"
 | `device` | `Build.DEVICE` | `ro.product.device` 及分区变体 | 代号 (如: xuanyuan)；未设置时自动使用 `name` 的值 |
 | `product` | `Build.PRODUCT` | —（无系统属性） | 代号 (如: xuanyuan)，仅覆写 Build 字段 |
 | `hardware` | `Build.HARDWARE` | `ro.hardware` | 硬件名 (如: qcom)，无分区变体 |
+| `board` | `Build.BOARD` | `ro.product.board` | 主板名 (如: kalama)，无分区变体 |
 | `fingerprint` | `Build.FINGERPRINT` | `ro.build.fingerprint` | 指纹 |
 | `build_id` | `Build.ID` | `ro.build.id`、`ro.system.build.id`、`ro.vendor.build.id`、`ro.product.build.id` | Build ID (如: UKQ1.230917.001) |
 | `characteristics` | —（仅属性） | `ro.build.characteristics` | 特性 (如: tablet) |
 
 > **「分区变体」**指 `ro.product.{odm,vendor,system,system_ext,product,bootimage}.<字段>` 共 6 个属性。bionic 的属性读取按前缀路由到不同分区属性区，OnePlus/OPPO 等设备会读取这些变体，统一写入可保证各设备读取一致。
 
-### Android 版本伪装
+### Android 版本与构建信息伪装
 
 | 字段 | Build 字段 | 系统属性 | 示例 |
 |------|-----------|----------|------|
 | `android_version` | `Build.VERSION.RELEASE` | `ro.build.version.release`、`ro.system.build.version.release`、`ro.vendor.build.version.release`、`ro.product.build.version.release` | `"15"`, `"14"`, `"13"` |
 | `sdk_int` | `Build.VERSION.SDK_INT`（整数） | `ro.build.version.sdk`、`ro.system.build.version.sdk`、`ro.vendor.build.version.sdk`、`ro.product.build.version.sdk` | `35`, `34`, `33` |
+| `display_id` | `Build.DISPLAY` | `ro.build.display.id` | `PD2546_16.0.9.400(CN01)`，无分区变体 |
+| `incremental` | `Build.VERSION.INCREMENTAL` | `ro.build.version.incremental` 及分区变体 | `compiler260228234011` |
+| `security_patch` | `Build.VERSION.SECURITY_PATCH` | `ro.build.version.security_patch` 及分区变体 | `2025-06-05` |
+
+> `security_patch` 会按 `ro.{system,system_ext,product,vendor,odm,bootimage,system_dlkm,vendor_dlkm,odm_dlkm}.build.version.security_patch` 整族写入，另写入裸名副本 `ro.vendor.build.security_patch`（即「供应商安全补丁级别」）。
+
+### DPI伪装
+
+在模板或 `[[apps]]` 中设置 `dpi`（范围 `120`–`640`），例如 `dpi = 420`。模块先保存当前的DPI；目标应用退后台约 2 秒或退出后恢复原值，回到前台时重新应用。没有备份时会重置`。
 
 ### 自定义属性
 
@@ -174,9 +168,8 @@ manufacturer = "Custom"
 | 字段 | 默认值 | 说明 |
 |------|--------|------|
 | `companion_resetprop` | `false` | `true` 时跳过 COW，所有属性交给 companion 进程 `resetprop` 写入（直写属性区，绕过 property_service），全系统读取一致；`false`（默认）时 COW 优先，仅影响当前进程内存。详见 [属性伪造机制](#属性伪造机制) |
+| `dpi` | — | 临时设置系统显示 density（`wm density`），范围 `120`–`640`；由 companion 保存并恢复原始 override |
 | `force_denylist_unmount` | 继承 `default_force_denylist_unmount` | 对该应用强制启用 Zygisk `FORCE_DENYLIST_UNMOUNT`；优先级：应用 > 模板 > 全局默认 |
-| `cpu_spoof` | — | CPU 伪装预设名，引用 `[cpu_presets]`，详见 [CPU 伪装](#cpu-伪装) |
-| `cpu_spoof_custom` | — | 直接指定 `/proc/cpuinfo` 内容，优先级高于 `cpu_spoof` |
 
 **注意**：
 - 除 `package` 外所有字段均为可选
@@ -184,24 +177,15 @@ manufacturer = "Custom"
 - `[[apps]]` 中的字段整记录取代模板，未设置字段不回落（见[优先级](#优先级)）
 - 不在上表中的字段会被静默忽略（不影响解析）
 
-## CPU 伪装
-
-通过 companion 进程把伪造的 `/proc/cpuinfo` 内容 bind mount 到目标应用的挂载命名空间：
-
-- KernelSU 会在挂载后 25–100ms 再执行 `setns` 切换命名空间，模块通过 timerfd 检测并自动重新挂载
-- 应用退出后自动卸载，不影响其他应用
-- 未配置 `cpu_spoof` 的应用启动时会主动清理可能泄漏到其命名空间的 `/proc/cpuinfo` 挂载（无伪装活跃时开销仅约 13μs）
-- 内容来源优先级：`cpu_spoof_custom` > `cpu_spoof` 预设名 > 全局 `default_cpu_spoof` > 在 `[cpu_presets]` 中查找；预设不存在则不做 CPU 伪装
-
 ## 属性伪造机制
 
 所有应用统一走同一执行流（无需选择模式）：
 
 ```
-① JNI 覆写 Build 静态字段 → ② COW 或 companion resetprop → ③ CPU 伪装 → ④ DlClose 卸载模块
+① JNI 覆写 Build 静态字段 → ② COW 或 companion resetprop → ③ DPI 伪装 → ④ DlClose 卸载模块
 ```
 
-- **COW（默认）**：通过 mmap COW 重映射属性区文件，直接覆写属性内存，覆盖 `__system_property_get` / `__system_property_read_callback` 的 native 读取；无 GOT/PLT 修改；**只影响当前进程**的内存映射；模块写完立即 DlClose，零驻留
+- **COW（默认）**：**只影响当前进程**；模块写完立即 DlClose，零驻留
 - **companion resetprop（`companion_resetprop = true`）**：全部属性经 companion 进程直写属性区（`skip_svc`，绕过 property_service），**全系统读取一致**；应用退出或退后台约 2 秒后自动恢复原始值，回到前台重新应用
 
 ## 完整配置示例
@@ -210,14 +194,6 @@ manufacturer = "Custom"
 # ── 全局设置 ──────────────────────────────────────────────
 debug = false                        # 调试日志（默认关闭）
 default_force_denylist_unmount = false
-default_cpu_spoof = "kirin_9030pro"  # 全局默认 CPU 预设
-
-# ── CPU 伪装预设表 ────────────────────────────────────────
-[cpu_presets]
-kirin_9030pro = """Processor       : AArch64 Processor rev 0 (aarch64)
-Features        : fp asimd evtstrm aes pmull sha1 sha2 crc32
-...
-Hardware        : HiSilicon Kirin 9030 Pro"""
 
 # ── 机型模板 ──────────────────────────────────────────────
 [templates.redmagic_9_pro]
@@ -234,7 +210,6 @@ device = "REDMAGIC 11 PRO"
 product = "NX809J"
 fingerprint = "REDMAGIC/NX809J-UN/NX809J:16/BP2A.250605.031.A3/20251017.000000:user/release-keys"
 build_id = "BP2A.250605.031.A3"
-cpu_spoof = "kirin_9030pro"  # 模板内所有包名启用 CPU 伪装
 
 # ── 直接配置 ──────────────────────────────────────────────
 [[apps]]
@@ -247,6 +222,7 @@ product = "popsicle"
 name = "popsicle"
 android_version = "15"
 sdk_int = 35
+dpi = 420                       # 临时屏幕密度（120–640）
 force_denylist_unmount = true  # 覆盖全局默认，仅对该应用启用
 
 [[apps]]
