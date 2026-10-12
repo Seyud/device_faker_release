@@ -12,7 +12,7 @@ license: GPL-3.0-or-later
 homepage: https://seyud.github.io/device_faker/
 support: https://github.com/Seyud/device_faker_release/issues
 tags: [device-faker, faker, spoof, zygisk]
-icon: assets/icon.svg
+icon: assets/icon.png
 metamodule: false
 
 authors:
